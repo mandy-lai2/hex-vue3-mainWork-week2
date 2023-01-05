@@ -55,43 +55,42 @@ import { createApp } from "https://cdnjs.cloudflare.com/ajax/libs/vue/3.2.45/vue
 const app = {
   data() {
     return {
-      apiUrl:'https://vue3-course-api.hexschool.io/v2',
-      apiPath:'mandyapi',
-      products:[],
-      tempProduct:{}
-
+      apiUrl: "https://vue3-course-api.hexschool.io/v2",
+      apiPath: "mandyapi",
+      products: [],
+      tempProduct: {},
     };
   },
   methods: {
-    checkUser(){
-      axios.post(`${this.apiUrl}/api/user/check`)
-    .then(res=>{
-      // console.log(res.data);
-      this.getProducts();
-    })
-    .catch(error=>{
-      alert(error.data.message);
-      // console.log(error);
-      window.location='index.html'
-    })
+    checkUser() {
+      axios
+        .post(`${this.apiUrl}/api/user/check`)
+        .then((res) => {
+          this.getProducts();
+        })
+        .catch((error) => {
+          alert(error.data.message);
+          window.location = "index.html";
+        });
     },
-    getProducts(){
-      axios.get(`${this.apiUrl}/api/${this.apiPath}/admin/products`)
-      .then(res=>{
-        console.log(res.data.products);
-        this.products=res.data.products;
-  
-      })
-      .catch(error=>{
-        console.log(error.data.message);
-      })
-    }
-    
+    getProducts() {
+      axios
+        .get(`${this.apiUrl}/api/${this.apiPath}/admin/products`)
+        .then((res) => {
+          this.products = res.data.products;
+        })
+        .catch((error) => {
+          console.log(error.data.message);
+        });
+    },
   },
   mounted() {
-    const token = document.cookie.replace(/(?:(?:^|.*;\s*)userToken\s*\=\s*([^;]*).*$)|^.*$/, "$1");  
-    axios.defaults.headers.common['Authorization'] = token;
-    this.checkUser()
+    const token = document.cookie.replace(
+      /(?:(?:^|.*;\s*)userToken\s*\=\s*([^;]*).*$)|^.*$/,
+      "$1"
+    );
+    axios.defaults.headers.common["Authorization"] = token;
+    this.checkUser();
   },
 };
 createApp(app).mount("#app");
